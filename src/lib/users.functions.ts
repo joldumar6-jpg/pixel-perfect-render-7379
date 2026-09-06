@@ -29,7 +29,16 @@ export const listarUtilizadores = createServerFn({ method: 'GET' })
       .select('id, user_id, nome, email, tipo_perfil, setor_id, created_at, setores(id, nome, cor)')
       .order('created_at', { ascending: true });
     if (error) throw new Error(error.message);
-    return (data ?? []) as unknown as Array<Record<string, unknown>>;
+    return (data ?? []) as unknown as Array<{
+      id: string;
+      user_id: string;
+      nome: string;
+      email: string;
+      tipo_perfil: string;
+      setor_id: string | null;
+      created_at: string;
+      setores: { id: string; nome: string; cor: string } | null;
+    }>;
   });
 
 export const criarUtilizador = createServerFn({ method: 'POST' })
