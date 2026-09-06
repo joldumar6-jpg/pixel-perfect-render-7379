@@ -118,7 +118,36 @@ export function useActivities(options: UseActivitiesOptions = {}) {
         query = query.eq('criticidade', options.criticidade);
       }
 
-      const { data, error } = await query;
+      let { data, error } = await query;
+
+      // Fallback defensivo: se houver erro de permissão RLS no join com perfis(*), tenta sem perfis(*)
+      if (error && (error as any).code === '42501') {
+        let fallbackQuery = supabase
+          .from('atividades')
+          .select('*, setores(*)')
+          .order('created_at', { ascending: false });
+
+        if (!isChefe) {
+          if (perfil?.setor_id) {
+            fallbackQuery = fallbackQuery.eq('setor_id', perfil.setor_id);
+          }
+        } else if (options.setorId) {
+          fallbackQuery = fallbackQuery.eq('setor_id', options.setorId);
+        }
+
+        if (options.estado) {
+          fallbackQuery = fallbackQuery.eq('estado', options.estado);
+        }
+        if (options.criticidade) {
+          fallbackQuery = fallbackQuery.eq('criticidade', options.criticidade);
+        }
+
+        const fallbackRes = await fallbackQuery;
+        if (!fallbackRes.error) {
+          data = fallbackRes.data;
+          error = null;
+        }
+      }
 
       if (error) throw error;
 
