@@ -1,0 +1,6 @@
+{
+  "name": "EMRICH Infraestruturas",
+  "description": "Sistema de gestão de atividades operacionais, setores, varredura IA e infraestruturas",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
