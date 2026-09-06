@@ -256,10 +256,10 @@ export type Database = {
       meu_setor: { Args: never; Returns: string }
     }
     Enums: {
-      app_role: "chefe" | "colaborador"
+      app_role: "chefe" | "colaborador" | "diretor" | "chefe_setor"
       criticidade: "baixa" | "media" | "alta" | "critica"
       estado_atividade: "pendente" | "em_curso" | "concluido"
-      tipo_perfil: "chefe" | "colaborador"
+      tipo_perfil: "chefe" | "colaborador" | "diretor" | "chefe_setor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -387,10 +387,10 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["chefe", "colaborador"],
+      app_role: ["chefe", "colaborador", "diretor", "chefe_setor"],
       criticidade: ["baixa", "media", "alta", "critica"],
       estado_atividade: ["pendente", "em_curso", "concluido"],
-      tipo_perfil: ["chefe", "colaborador"],
+      tipo_perfil: ["chefe", "colaborador", "diretor", "chefe_setor"],
     },
   },
 } as const
