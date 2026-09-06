@@ -26,7 +26,6 @@ export const Route = createFileRoute("/api/public/criar-chefe")({
           return Response.json({ error: "email, password e nome são obrigatórios" }, { status: 400 });
         }
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
         const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
           email: body.email,
