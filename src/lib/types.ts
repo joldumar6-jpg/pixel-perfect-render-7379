@@ -1,6 +1,6 @@
 // Tipos para EMRICH INFRAESTRUTURAS
 
-export type TipoPerfil = 'chefe' | 'colaborador';
+export type TipoPerfil = 'chefe' | 'chefe_setor' | 'diretor' | 'colaborador';
 export type EstadoAtividade = 'pendente' | 'em_curso' | 'concluido';
 export type Criticidade = 'baixa' | 'media' | 'alta' | 'critica';
 

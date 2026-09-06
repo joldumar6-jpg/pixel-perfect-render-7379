@@ -8,9 +8,11 @@ import {
   Database,
   LayoutDashboard,
   Building2,
+  Users,
 } from 'lucide-react';
 
 const mobileItems = [
+  { href: '/utilizadores', label: 'Utilizadores', icon: Users, requiresChefe: true },
   { href: '/atividades', label: 'Atividades', icon: ClipboardList },
   { href: '/varredura-ia', label: 'Varredura IA', icon: Scan, requiresChefe: true },
   { href: '/sql', label: 'SQL', icon: Database, requiresChefe: true },
