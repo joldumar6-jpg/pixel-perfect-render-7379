@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Building2, Lock, Loader2, Eye, EyeOff } from "lucide-react";
+import { Building2, Lock, Loader2, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import type { Setor } from "@/lib/types";
+import { SETORES_DATA, type Setor } from "@/lib/types";
 
 const TITLE = "EMRICH Infraestruturas — Gestão Operacional";
 const DESCRIPTION =
@@ -49,7 +49,22 @@ function LoginPage() {
       .from("setores")
       .select("*")
       .order("nome")
-      .then(({ data }) => setSetores((data ?? []) as unknown as Setor[]));
+      .then(({ data }) => {
+        if (!data || data.length === 0) {
+          setSetores(
+            SETORES_DATA.map((s) => ({
+              id: s.id,
+              nome: s.nome,
+              descricao: `Setor de ${s.nome}`,
+              cor: s.cor,
+              icone: s.icone,
+              created_at: new Date().toISOString(),
+            }))
+          );
+        } else {
+          setSetores(data as unknown as Setor[]);
+        }
+      });
   }, [modo, setores.length]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -63,6 +78,24 @@ function LoginPage() {
       navigate({ to: "/atividades" });
     } else {
       setError(result.error || "Erro ao iniciar sessão");
+    }
+    setIsLoading(false);
+  };
+
+  const handleEntrarComoChefe = async () => {
+    const chefeEmail = "chefe@emrich.com";
+    const chefePassword = "Chefe@Emrich2026";
+    setEmail(chefeEmail);
+    setPassword(chefePassword);
+    setError(null);
+    setInfo(null);
+    setIsLoading(true);
+
+    const result = await login(chefeEmail, chefePassword);
+    if (result.success) {
+      navigate({ to: "/atividades" });
+    } else {
+      setError(result.error || "Erro ao iniciar sessão como Chefe");
     }
     setIsLoading(false);
   };
@@ -161,6 +194,50 @@ function LoginPage() {
             {info && (
               <div className="mb-4 p-3 bg-emerald-400/10 border border-emerald-400/20 rounded-lg text-emerald-400 text-sm">
                 {info}
+              </div>
+            )}
+
+            {modo === "login" && (
+              <div className="mb-5 p-3.5 bg-slate-900/80 border border-amber-400/30 rounded-xl">
+                <div className="flex items-start gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
+                      <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                        Chefe de Departamento
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-400/10 border border-emerald-400/20 px-1.5 py-0.5 rounded">
+                        Acesso Total
+                      </span>
+                    </div>
+                    <div className="mt-2 space-y-1 text-xs">
+                      <div className="flex items-center justify-between text-slate-300">
+                        <span className="text-slate-400">Email:</span>
+                        <code className="text-amber-300 font-mono bg-slate-950/70 px-2 py-0.5 rounded border border-slate-800">
+                          chefe@emrich.com
+                        </code>
+                      </div>
+                      <div className="flex items-center justify-between text-slate-300">
+                        <span className="text-slate-400">Senha:</span>
+                        <code className="text-amber-300 font-mono bg-slate-950/70 px-2 py-0.5 rounded border border-slate-800">
+                          Chefe@Emrich2026
+                        </code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleEntrarComoChefe}
+                  disabled={isLoading}
+                  className="mt-3 w-full py-2 px-3 bg-amber-400/20 hover:bg-amber-400/30 active:bg-amber-400/40 border border-amber-400/40 text-amber-300 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                >
+                  <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <span>Entrar Diretamente como Chefe</span>
+                </button>
               </div>
             )}
 

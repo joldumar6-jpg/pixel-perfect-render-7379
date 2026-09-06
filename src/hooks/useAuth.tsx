@@ -49,6 +49,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
+        // Verificar primeiro sessão em storage (para o Chefe oficial ou modo offline)
+        if (typeof window !== 'undefined') {
+          const stored = localStorage.getItem('emrich_auth_session');
+          if (stored) {
+            try {
+              const parsed = JSON.parse(stored);
+              if (parsed?.user && parsed?.perfil) {
+                setUser(parsed.user);
+                setPerfil(parsed.perfil);
+                setIsLoading(false);
+                return;
+              }
+            } catch (e) {
+              console.error('Error reading stored session:', e);
+            }
+          }
+        }
+
         const { data: { session } } = await supabase.auth.getSession();
 
         if (session?.user) {
@@ -78,8 +96,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const perfilData = await fetchPerfil(session.user.id);
         setPerfil(perfilData);
       } else {
-        setUser(null);
-        setPerfil(null);
+        if (typeof window !== 'undefined' && !localStorage.getItem('emrich_auth_session')) {
+          setUser(null);
+          setPerfil(null);
+        }
       }
       setIsLoading(false);
     });
@@ -88,35 +108,112 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    // Verificação de credenciais dedicadas de Chefe de Departamento
+    const isChefeMaster =
+      (cleanEmail === 'chefe@emrich.com' || cleanEmail === 'joldumar6@gmail.com') &&
+      cleanPassword === 'Chefe@Emrich2026';
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: cleanEmail,
+        password: cleanPassword,
       });
 
-      if (error) {
-        return { success: false, error: error.message };
-      }
-
-      if (data.user) {
+      if (!error && data.user) {
         setUser({
           id: data.user.id,
           email: data.user.email || '',
         });
 
         const perfilData = await fetchPerfil(data.user.id);
-        setPerfil(perfilData);
+        const finalPerfil: Perfil = perfilData || {
+          id: data.user.id,
+          user_id: data.user.id,
+          nome: isChefeMaster ? 'Oldumar Julio' : (data.user.user_metadata?.nome || 'Utilizador'),
+          email: cleanEmail,
+          tipo_perfil: isChefeMaster ? 'chefe' : 'colaborador',
+          setor_id: null,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+
+        setPerfil(finalPerfil);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('emrich_auth_session', JSON.stringify({ user: { id: data.user.id, email: cleanEmail }, perfil: finalPerfil }));
+        }
+        return { success: true };
+      }
+
+      // Se der erro de "Email not confirmed" ou outro e for o Chefe Master credenciado:
+      if (isChefeMaster) {
+        const chefeUser: User = {
+          id: 'chefe-emrich-master',
+          email: cleanEmail,
+        };
+        const chefePerfil: Perfil = {
+          id: 'chefe-perfil-master',
+          user_id: 'chefe-emrich-master',
+          nome: 'Oldumar Julio',
+          email: cleanEmail,
+          tipo_perfil: 'chefe',
+          setor_id: null,
+          setores: null,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+
+        setUser(chefeUser);
+        setPerfil(chefePerfil);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('emrich_auth_session', JSON.stringify({ user: chefeUser, perfil: chefePerfil }));
+        }
+        return { success: true };
+      }
+
+      if (error) {
+        return { success: false, error: error.message };
       }
 
       return { success: true };
     } catch (err) {
       console.error('Login error:', err);
+      // Fallback para o chefe mesmo com falha de conexão
+      if (isChefeMaster) {
+        const chefeUser: User = { id: 'chefe-emrich-master', email: cleanEmail };
+        const chefePerfil: Perfil = {
+          id: 'chefe-perfil-master',
+          user_id: 'chefe-emrich-master',
+          nome: 'Oldumar Julio',
+          email: cleanEmail,
+          tipo_perfil: 'chefe',
+          setor_id: null,
+          setores: null,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+        setUser(chefeUser);
+        setPerfil(chefePerfil);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('emrich_auth_session', JSON.stringify({ user: chefeUser, perfil: chefePerfil }));
+        }
+        return { success: true };
+      }
       return { success: false, error: 'Erro ao fazer login' };
     }
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error('Logout error:', e);
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('emrich_auth_session');
+    }
     setUser(null);
     setPerfil(null);
   };

@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Atividade, MetricasAtividades, EstadoAtividade, Criticidade, Setor } from '@/lib/types';
+import { Atividade, MetricasAtividades, EstadoAtividade, Criticidade, Setor, SETORES_DATA } from '@/lib/types';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { calculateTaxaExecucao } from '@/lib/utils';
@@ -43,10 +43,33 @@ export function useActivities(options: UseActivitiesOptions = {}) {
         .select('*')
         .order('nome');
 
-      if (error) throw error;
-      setSetores(data || []);
+      if (error || !data || data.length === 0) {
+        // Fallback para os 8 setores oficiais
+        setSetores(
+          SETORES_DATA.map((s) => ({
+            id: s.id,
+            nome: s.nome,
+            descricao: `Setor de ${s.nome}`,
+            cor: s.cor,
+            icone: s.icone,
+            created_at: new Date().toISOString(),
+          }))
+        );
+      } else {
+        setSetores(data);
+      }
     } catch (err) {
       console.error('Error fetching setores:', err);
+      setSetores(
+        SETORES_DATA.map((s) => ({
+          id: s.id,
+          nome: s.nome,
+          descricao: `Setor de ${s.nome}`,
+          cor: s.cor,
+          icone: s.icone,
+          created_at: new Date().toISOString(),
+        }))
+      );
     }
   }, []);
 
