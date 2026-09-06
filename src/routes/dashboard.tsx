@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { createFileRoute } from "@tanstack/react-router";
 import { RequireAuth } from "@/components/layout/RequireAuth";
 
@@ -6,6 +7,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useActivities } from '@/hooks/useActivities';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { ActivityCard } from '@/components/activities';
+import { perfilLabel } from '@/lib/perfis';
+import { cn } from '@/lib/utils';
 import {
   ClipboardList,
   CheckCircle2,
@@ -14,12 +17,32 @@ import {
   TrendingUp,
   ArrowRight,
   Building2,
+  BadgeCheck,
 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
 function DashboardPage() {
   const { perfil, isChefe } = useAuth();
   const { atividades, setores, isLoading, metricas } = useActivities();
+
+  const [tratamento, setTratamento] = useState<'Sr.' | 'Sra.' | 'Sr./Sra.'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('emrich_tratamento');
+      if (saved === 'Sr.' || saved === 'Sra.' || saved === 'Sr./Sra.') {
+        return saved;
+      }
+    }
+    return 'Sr./Sra.';
+  });
+
+  const handleTratamentoChange = (novo: 'Sr.' | 'Sra.' | 'Sr./Sra.') => {
+    setTratamento(novo);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('emrich_tratamento', novo);
+    }
+  };
+
+  const cargoNome = perfilLabel(perfil?.tipo_perfil);
 
   const atividadesCriticas = atividades.filter(
     a => a.criticidade === 'critica' && a.estado !== 'concluido'
@@ -32,20 +55,83 @@ function DashboardPage() {
     <AppLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0f172a]/70 border border-[#1e293b] p-5 rounded-2xl shadow-sm">
           <div>
-            <h1 className="text-2xl font-bold text-slate-100">
-              Bem-vindo, {perfil?.nome?.split(' ')[0] || 'Usuário'}
-            </h1>
-            <p className="text-slate-400 text-sm mt-1">
-              {isChefe
-                ? 'Vista geral do Departamento de Infraestruturas'
-                : `Gestão do setor ${perfil?.setores?.nome || ''}`}
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-100 tracking-tight">
+                Bem-vindo(a), {tratamento} {perfil?.nome || 'Usuário'}
+              </h1>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/15 border border-amber-400/30 text-amber-300 shadow-sm">
+                <BadgeCheck className="w-3.5 h-3.5 text-amber-400" />
+                {cargoNome}
+              </span>
+            </div>
+            <p className="text-slate-400 text-sm mt-2 flex items-center gap-2 flex-wrap">
+              <span className="text-slate-300 font-medium">
+                Cargo: <span className="text-amber-400 font-semibold">{cargoNome}</span>
+              </span>
+              <span className="text-slate-600">•</span>
+              <span>
+                {isChefe
+                  ? 'Direção Geral do Departamento de Infraestruturas'
+                  : perfil?.setores?.nome
+                  ? `Setor: ${perfil.setores.nome}`
+                  : 'Departamento de Infraestruturas'}
+              </span>
             </p>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-400/10 border border-amber-400/20 rounded-full">
-            <Building2 className="w-4 h-4 text-amber-400" />
-            <span className="text-sm text-amber-400 font-medium">EMRICH</span>
+
+          <div className="flex items-center gap-3 self-start md:self-auto flex-wrap">
+            {/* Seletor de Tratamento Sr. / Sra. */}
+            <div className="flex items-center bg-slate-900/90 border border-slate-700/80 rounded-xl p-1 text-xs shadow-inner">
+              <span className="px-2 text-slate-400 font-medium text-[11px] hidden sm:inline">
+                Tratamento:
+              </span>
+              <button
+                type="button"
+                onClick={() => handleTratamentoChange('Sr.')}
+                className={cn(
+                  'px-2.5 py-1 rounded-lg font-semibold transition-all',
+                  tratamento === 'Sr.'
+                    ? 'bg-amber-400 text-slate-950 shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                )}
+                title="Definir tratamento como Senhor"
+              >
+                Sr.
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTratamentoChange('Sra.')}
+                className={cn(
+                  'px-2.5 py-1 rounded-lg font-semibold transition-all',
+                  tratamento === 'Sra.'
+                    ? 'bg-amber-400 text-slate-950 shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                )}
+                title="Definir tratamento como Senhora"
+              >
+                Sra.
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTratamentoChange('Sr./Sra.')}
+                className={cn(
+                  'px-2.5 py-1 rounded-lg font-semibold transition-all',
+                  tratamento === 'Sr./Sra.'
+                    ? 'bg-amber-400 text-slate-950 shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                )}
+                title="Definir tratamento como Sr./Sra."
+              >
+                Sr./Sra.
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-amber-400/10 border border-amber-400/20 rounded-xl">
+              <Building2 className="w-4 h-4 text-amber-400" />
+              <span className="text-sm text-amber-400 font-bold tracking-wider">EMRICH</span>
+            </div>
           </div>
         </div>
 
