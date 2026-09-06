@@ -253,6 +253,7 @@ export type Database = {
         Returns: boolean
       }
       is_chefe: { Args: never; Returns: boolean }
+      is_direcao: { Args: never; Returns: boolean }
       meu_setor: { Args: never; Returns: string }
     }
     Enums: {
