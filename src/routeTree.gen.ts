@@ -10,33 +10,73 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AtividadesRouteImport } from './routes/atividades'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as SqlRouteImport } from './routes/sql'
+import { Route as VarreduraIaRouteImport } from './routes/varredura-ia'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AtividadesRoute = AtividadesRouteImport.update({
+  id: '/atividades',
+  path: '/atividades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SqlRoute = SqlRouteImport.update({
+  id: '/sql',
+  path: '/sql',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VarreduraIaRoute = VarreduraIaRouteImport.update({
+  id: '/varredura-ia',
+  path: '/varredura-ia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/atividades': typeof AtividadesRoute
+  '/dashboard': typeof DashboardRoute
+  '/sql': typeof SqlRoute
+  '/varredura-ia': typeof VarreduraIaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/atividades': typeof AtividadesRoute
+  '/dashboard': typeof DashboardRoute
+  '/sql': typeof SqlRoute
+  '/varredura-ia': typeof VarreduraIaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/atividades': typeof AtividadesRoute
+  '/dashboard': typeof DashboardRoute
+  '/sql': typeof SqlRoute
+  '/varredura-ia': typeof VarreduraIaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/atividades' | '/dashboard' | '/sql' | '/varredura-ia'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/atividades' | '/dashboard' | '/sql' | '/varredura-ia'
+  id: '__root__' | '/' | '/atividades' | '/dashboard' | '/sql' | '/varredura-ia'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AtividadesRoute: typeof AtividadesRoute
+  DashboardRoute: typeof DashboardRoute
+  SqlRoute: typeof SqlRoute
+  VarreduraIaRoute: typeof VarreduraIaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +88,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/atividades': {
+      id: '/atividades'
+      path: '/atividades'
+      fullPath: '/atividades'
+      preLoaderRoute: typeof AtividadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sql': {
+      id: '/sql'
+      path: '/sql'
+      fullPath: '/sql'
+      preLoaderRoute: typeof SqlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/varredura-ia': {
+      id: '/varredura-ia'
+      path: '/varredura-ia'
+      fullPath: '/varredura-ia'
+      preLoaderRoute: typeof VarreduraIaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AtividadesRoute: AtividadesRoute,
+  DashboardRoute: DashboardRoute,
+  SqlRoute: SqlRoute,
+  VarreduraIaRoute: VarreduraIaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
