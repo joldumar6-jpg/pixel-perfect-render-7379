@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AtividadesRouteImport } from './routes/atividades'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SqlRouteImport } from './routes/sql'
+import { Route as UtilizadoresRouteImport } from './routes/utilizadores'
 import { Route as VarreduraIaRouteImport } from './routes/varredura-ia'
 import { Route as ApiPublicCriarChefeRouteImport } from './routes/api/public/criar-chefe'
 
@@ -36,6 +37,11 @@ const SqlRoute = SqlRouteImport.update({
   path: '/sql',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UtilizadoresRoute = UtilizadoresRouteImport.update({
+  id: '/utilizadores',
+  path: '/utilizadores',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VarreduraIaRoute = VarreduraIaRouteImport.update({
   id: '/varredura-ia',
   path: '/varredura-ia',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/atividades': typeof AtividadesRoute
   '/dashboard': typeof DashboardRoute
   '/sql': typeof SqlRoute
+  '/utilizadores': typeof UtilizadoresRoute
   '/varredura-ia': typeof VarreduraIaRoute
   '/api/public/criar-chefe': typeof ApiPublicCriarChefeRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/atividades': typeof AtividadesRoute
   '/dashboard': typeof DashboardRoute
   '/sql': typeof SqlRoute
+  '/utilizadores': typeof UtilizadoresRoute
   '/varredura-ia': typeof VarreduraIaRoute
   '/api/public/criar-chefe': typeof ApiPublicCriarChefeRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/atividades': typeof AtividadesRoute
   '/dashboard': typeof DashboardRoute
   '/sql': typeof SqlRoute
+  '/utilizadores': typeof UtilizadoresRoute
   '/varredura-ia': typeof VarreduraIaRoute
   '/api/public/criar-chefe': typeof ApiPublicCriarChefeRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/atividades'
     | '/dashboard'
     | '/sql'
+    | '/utilizadores'
     | '/varredura-ia'
     | '/api/public/criar-chefe'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/atividades'
     | '/dashboard'
     | '/sql'
+    | '/utilizadores'
     | '/varredura-ia'
     | '/api/public/criar-chefe'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/atividades'
     | '/dashboard'
     | '/sql'
+    | '/utilizadores'
     | '/varredura-ia'
     | '/api/public/criar-chefe'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   AtividadesRoute: typeof AtividadesRoute
   DashboardRoute: typeof DashboardRoute
   SqlRoute: typeof SqlRoute
+  UtilizadoresRoute: typeof UtilizadoresRoute
   VarreduraIaRoute: typeof VarreduraIaRoute
   ApiPublicCriarChefeRoute: typeof ApiPublicCriarChefeRoute
 }
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SqlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/utilizadores': {
+      id: '/utilizadores'
+      path: '/utilizadores'
+      fullPath: '/utilizadores'
+      preLoaderRoute: typeof UtilizadoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/varredura-ia': {
       id: '/varredura-ia'
       path: '/varredura-ia'
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   AtividadesRoute: AtividadesRoute,
   DashboardRoute: DashboardRoute,
   SqlRoute: SqlRoute,
+  UtilizadoresRoute: UtilizadoresRoute,
   VarreduraIaRoute: VarreduraIaRoute,
   ApiPublicCriarChefeRoute: ApiPublicCriarChefeRoute,
 }
