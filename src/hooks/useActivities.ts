@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Atividade, MetricasAtividades, EstadoAtividade, Criticidade, Setor } from '@/lib/types';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -50,7 +50,14 @@ export function useActivities(options: UseActivitiesOptions = {}) {
     }
   }, []);
 
-  // Fetch atividades
+  // Setores permitidos para o utilizador atual (colaborador só vê o seu setor)
+  const setoresPermitidos = useMemo(() => {
+    if (isChefe) return setores;
+    if (!perfil?.setor_id) return [];
+    return setores.filter(s => s.id === perfil.setor_id);
+  }, [setores, isChefe, perfil?.setor_id]);
+
+  // Fetch atividades com restrição estrita por setor
   const fetchAtividades = useCallback(async () => {
     if (!perfil && !isChefe) {
       setAtividades([]);
@@ -67,15 +74,20 @@ export function useActivities(options: UseActivitiesOptions = {}) {
         .select('*, setores(*), perfis(*)')
         .order('created_at', { ascending: false });
 
-      // Colaboradores só veem seu setor
-      if (!isChefe && perfil?.setor_id) {
+      // Colaboradores estritamente só veem o seu setor
+      if (!isChefe) {
+        if (!perfil?.setor_id) {
+          // Sem setor associado, não tem acesso a nenhuma atividade
+          setAtividades([]);
+          setIsLoading(false);
+          return;
+        }
         query = query.eq('setor_id', perfil.setor_id);
-      }
-
-      // Filtros
-      if (options.setorId) {
+      } else if (options.setorId) {
+        // Apenas o chefe pode alternar entre setores
         query = query.eq('setor_id', options.setorId);
       }
+
       if (options.estado) {
         query = query.eq('estado', options.estado);
       }
@@ -108,7 +120,7 @@ export function useActivities(options: UseActivitiesOptions = {}) {
     }
   }, [perfil, isChefe, options.setorId, options.estado, options.criticidade, options.search]);
 
-  // Create atividade
+  // Create atividade com restrição estrita de setor
   const createAtividade = async (data: {
     titulo: string;
     descricao?: string | undefined;
@@ -119,11 +131,17 @@ export function useActivities(options: UseActivitiesOptions = {}) {
   }) => {
     if (!perfil) return { success: false, error: 'Não autenticado' };
 
+    // Colaborador só pode criar no seu próprio setor
+    const targetSetorId = isChefe ? data.setor_id : perfil.setor_id;
+    if (!targetSetorId) {
+      return { success: false, error: 'Não possui um setor atribuído para criar atividades.' };
+    }
+
     try {
       const { error } = await supabase.from('atividades').insert({
         titulo: data.titulo,
         descricao: data.descricao ?? null,
-        setor_id: data.setor_id,
+        setor_id: targetSetorId,
         criticidade: data.criticidade,
         data_atividade: data.data_atividade,
         localizacao: data.localizacao ?? null,
@@ -142,7 +160,7 @@ export function useActivities(options: UseActivitiesOptions = {}) {
     }
   };
 
-  // Update atividade
+  // Update atividade com restrição ao setor do colaborador
   const updateAtividade = async (
     id: string,
     data: Partial<Atividade>
@@ -150,10 +168,23 @@ export function useActivities(options: UseActivitiesOptions = {}) {
     if (!perfil) return { success: false, error: 'Não autenticado' };
 
     try {
-      const { error } = await supabase
+      const safeData = { ...data, updated_at: new Date().toISOString() };
+      // Colaboradores não podem trocar a atividade de setor
+      if (!isChefe) {
+        delete safeData.setor_id;
+      }
+
+      let updateQuery = supabase
         .from('atividades')
-        .update({ ...data, updated_at: new Date().toISOString() } as never)
+        .update(safeData as never)
         .eq('id', id);
+
+      // Colaborador só pode atualizar atividades que sejam do seu próprio setor
+      if (!isChefe && perfil.setor_id) {
+        updateQuery = updateQuery.eq('setor_id', perfil.setor_id);
+      }
+
+      const { error } = await updateQuery;
 
       if (error) throw error;
 
@@ -185,7 +216,7 @@ export function useActivities(options: UseActivitiesOptions = {}) {
 
   // Delete atividade
   const deleteAtividade = async (id: string) => {
-    if (!isChefe) return { success: false, error: 'Sem permissão' };
+    if (!isChefe) return { success: false, error: 'Sem permissão. Apenas a chefia pode eliminar atividades.' };
 
     try {
       const { error } = await supabase.from('atividades').delete().eq('id', id);
@@ -226,7 +257,7 @@ export function useActivities(options: UseActivitiesOptions = {}) {
 
   return {
     atividades,
-    setores,
+    setores: setoresPermitidos,
     isLoading,
     isOnline,
     error,

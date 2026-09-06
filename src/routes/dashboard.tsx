@@ -177,7 +177,17 @@ function DashboardPage() {
 
         {/* Performance Chart Placeholder */}
         <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-6">
-          <h2 className="text-lg font-semibold text-slate-200 mb-4">Desempenho por Setor</h2>
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <h2 className="text-lg font-semibold text-slate-200">
+              {isChefe ? 'Desempenho por Setor (Geral)' : `Desempenho do Seu Setor: ${perfil?.setores?.nome || 'Atribuído'}`}
+            </h2>
+            {!isChefe && (
+              <span className="text-xs px-2.5 py-1 bg-amber-400/10 border border-amber-400/25 text-amber-400 rounded-full font-medium flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                Acesso restrito ao seu setor
+              </span>
+            )}
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {setores.map((setor) => {
               const setorAtividades = atividades.filter(a => a.setor_id === setor.id);

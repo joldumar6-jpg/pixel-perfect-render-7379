@@ -29,13 +29,20 @@ export function ActivityForm({
 }: ActivityFormProps) {
   const [titulo, setTitulo] = useState(atividade?.titulo || '');
   const [descricao, setDescricao] = useState(atividade?.descricao || '');
-  const [setorId, setSetorId] = useState(atividade?.setor_id || defaultSetorId || '');
+  const initialSetorId = atividade?.setor_id || defaultSetorId || (setores.length === 1 ? setores[0].id : '');
+  const [setorId, setSetorId] = useState(initialSetorId);
   const [criticidade, setCriticidade] = useState<Criticidade>(atividade?.criticidade || 'media');
   const [dataAtividade, setDataAtividade] = useState(
     atividade?.data_atividade || new Date().toISOString().slice(0, 10)
   );
   const [localizacao, setLocalizacao] = useState(atividade?.localizacao || '');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!setorId && (defaultSetorId || (setores.length === 1 ? setores[0].id : ''))) {
+      setSetorId(defaultSetorId || (setores.length === 1 ? setores[0].id : ''));
+    }
+  }, [defaultSetorId, setores, setorId]);
 
   const isEditing = !!atividade;
 
@@ -124,15 +131,23 @@ export function ActivityForm({
 
           {/* Setor */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">
-              Setor *
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-sm font-medium text-slate-300">
+                Setor *
+              </label>
+              {setores.length === 1 && (
+                <span className="text-[11px] font-medium text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                  Acesso exclusivo ao seu setor
+                </span>
+              )}
+            </div>
             <select
               value={setorId}
               onChange={(e) => setSetorId(e.target.value)}
-              className="w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20"
+              disabled={setores.length === 1}
+              className="w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 disabled:opacity-80 disabled:cursor-not-allowed"
             >
-              <option value="">Selecione um setor</option>
+              {setores.length > 1 && <option value="">Selecione um setor</option>}
               {setores.map((setor) => (
                 <option key={setor.id} value={setor.id}>
                   {setor.nome}

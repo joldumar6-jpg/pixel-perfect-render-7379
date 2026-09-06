@@ -12,8 +12,9 @@ import {
 } from 'lucide-react';
 
 const mobileItems = [
-  { href: '/utilizadores', label: 'Utilizadores', icon: Users, requiresChefe: true },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/atividades', label: 'Atividades', icon: ClipboardList },
+  { href: '/utilizadores', label: 'Utilizadores', icon: Users, requiresChefe: true },
   { href: '/varredura-ia', label: 'Varredura IA', icon: Scan, requiresChefe: true },
   { href: '/sql', label: 'SQL', icon: Database, requiresChefe: true },
 ];
