@@ -4,10 +4,18 @@ export const Route = createFileRoute("/api/public/criar-chefe")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secret = request.headers.get("x-setup-secret");
-        if (!secret || secret !== process.env["LOVABLE_CRON_SECRET"]) {
-          return new Response("Unauthorized", { status: 401 });
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+        // Arranque único: só permite criar o chefe se ainda não existir nenhum.
+        const { data: chefes } = await supabaseAdmin
+          .from("user_roles")
+          .select("user_id")
+          .eq("role", "chefe")
+          .limit(1);
+        if (chefes && chefes.length > 0) {
+          return new Response("Já existe um Chefe de Departamento", { status: 403 });
         }
+
 
         const body = (await request.json()) as {
           email?: string;
