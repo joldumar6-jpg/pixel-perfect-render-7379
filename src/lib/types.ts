@@ -79,17 +79,27 @@ export interface User {
   perfil?: Perfil;
 }
 
-// Dados dos 8 setores
+// Dados dos 8 setores com UUIDs padronizados
 export const SETORES_DATA = [
-  { id: 'patrimonio', nome: 'Património', cor: '#3b82f6', icone: 'building' },
-  { id: 'canalizacao', nome: 'Canalização', cor: '#06b6d4', icone: 'droplets' },
-  { id: 'jardinagem', nome: 'Jardinagem', cor: '#10b981', icone: 'trees' },
-  { id: 'construcao', nome: 'Construção', cor: '#f59e0b', icone: 'hard-hat' },
-  { id: 'serralharia', nome: 'Serralharia', cor: '#f97316', icone: 'wrench' },
-  { id: 'eletricidade', nome: 'Eletricidade', cor: '#eab308', icone: 'zap' },
-  { id: 'limpeza', nome: 'Limpeza', cor: '#14b8a6', icone: 'spray-can' },
-  { id: 'marcenaria', nome: 'Marcenaria', cor: '#ec4899', icone: 'sofa' },
+  { id: 'a0000000-0000-4000-8000-000000000001', slug: 'patrimonio', nome: 'Património', cor: '#3b82f6', icone: 'building' },
+  { id: 'a0000000-0000-4000-8000-000000000002', slug: 'canalizacao', nome: 'Canalização', cor: '#06b6d4', icone: 'droplets' },
+  { id: 'a0000000-0000-4000-8000-000000000003', slug: 'jardinagem', nome: 'Jardinagem', cor: '#10b981', icone: 'trees' },
+  { id: 'a0000000-0000-4000-8000-000000000004', slug: 'construcao', nome: 'Construção', cor: '#f59e0b', icone: 'hard-hat' },
+  { id: 'a0000000-0000-4000-8000-000000000005', slug: 'serralharia', nome: 'Serralharia', cor: '#f97316', icone: 'wrench' },
+  { id: 'a0000000-0000-4000-8000-000000000006', slug: 'eletricidade', nome: 'Eletricidade', cor: '#eab308', icone: 'zap' },
+  { id: 'a0000000-0000-4000-8000-000000000007', slug: 'limpeza', nome: 'Limpeza', cor: '#14b8a6', icone: 'spray-can' },
+  { id: 'a0000000-0000-4000-8000-000000000008', slug: 'marcenaria', nome: 'Marcenaria', cor: '#ec4899', icone: 'sofa' },
 ] as const;
+
+export const normalizeSetorId = (id: string | null | undefined): string => {
+  if (!id) return SETORES_DATA[0].id;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (uuidRegex.test(id)) return id;
+  const match = SETORES_DATA.find(
+    (s) => s.slug === id.toLowerCase() || s.nome.toLowerCase() === id.toLowerCase()
+  );
+  return match ? match.id : SETORES_DATA[0].id;
+};
 
 export const ESTADO_CONFIG: Record<EstadoAtividade, { label: string; cor: string; bgCor: string }> = {
   pendente: { label: 'Pendente', cor: 'text-amber-400', bgCor: 'bg-amber-400/10' },

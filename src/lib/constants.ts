@@ -46,3 +46,20 @@ export const TIPO_PERFIL_LABEL = {
   chefe: 'Chefe de Departamento',
   colaborador: 'Colaborador',
 } as const;
+
+// Identificadores UUID canónicos para o Chefe de Departamento
+export const CHEFE_MASTER_UUID = '00000000-0000-4000-a000-000000000001';
+export const CHEFE_PERFIL_UUID = '00000000-0000-4000-a000-000000000002';
+
+export const isValidUUID = (id: string | null | undefined): boolean => {
+  if (!id) return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+};
+
+export const toValidUUID = (
+  id: string | null | undefined,
+  fallback: string = CHEFE_MASTER_UUID
+): string => {
+  if (isValidUUID(id)) return id!;
+  return fallback;
+};

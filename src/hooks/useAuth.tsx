@@ -2,6 +2,12 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Perfil, TipoPerfil } from '@/lib/types';
 import { supabase } from '@/integrations/supabase/client';
+import {
+  CHEFE_MASTER_UUID,
+  CHEFE_PERFIL_UUID,
+  isValidUUID,
+  toValidUUID,
+} from '@/lib/constants';
 
 interface AuthContextType {
   user: User | null;
@@ -25,11 +31,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userEmail?: string,
     userMetadata?: Record<string, unknown>
   ): Promise<Perfil | null> => {
-    // Se for a conta do Chefe Master oficial
-    if (userId === 'chefe-emrich-master' || userEmail?.toLowerCase() === 'chefe@emrich.com') {
+    // Se for a conta do Chefe Master oficial ou UUID canónico
+    if (
+      userId === 'chefe-emrich-master' ||
+      userId === CHEFE_MASTER_UUID ||
+      userEmail?.toLowerCase() === 'chefe@emrich.com'
+    ) {
       return {
-        id: 'chefe-perfil-master',
-        user_id: userId,
+        id: CHEFE_PERFIL_UUID,
+        user_id: CHEFE_MASTER_UUID,
         nome: 'Oldumar Julio',
         email: userEmail || 'chefe@emrich.com',
         tipo_perfil: 'chefe',
@@ -127,6 +137,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             try {
               const parsed = JSON.parse(stored);
               if (parsed?.user && parsed?.perfil) {
+                // Sanear qualquer ID legado que não seja UUID
+                if (parsed.user.id === 'chefe-emrich-master' || !isValidUUID(parsed.user.id)) {
+                  parsed.user.id = CHEFE_MASTER_UUID;
+                }
+                if (parsed.perfil.user_id === 'chefe-emrich-master' || !isValidUUID(parsed.perfil.user_id)) {
+                  parsed.perfil.user_id = CHEFE_MASTER_UUID;
+                }
+                if (parsed.perfil.id === 'chefe-perfil-master' || !isValidUUID(parsed.perfil.id)) {
+                  parsed.perfil.id = CHEFE_PERFIL_UUID;
+                }
+                localStorage.setItem('emrich_auth_session', JSON.stringify(parsed));
                 setUser(parsed.user);
                 setPerfil(parsed.perfil);
                 setIsLoading(false);
@@ -236,12 +257,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Se der erro de "Email not confirmed" ou outro e for o Chefe Master credenciado:
       if (isChefeMaster) {
         const chefeUser: User = {
-          id: 'chefe-emrich-master',
+          id: CHEFE_MASTER_UUID,
           email: cleanEmail,
         };
         const chefePerfil: Perfil = {
-          id: 'chefe-perfil-master',
-          user_id: 'chefe-emrich-master',
+          id: CHEFE_PERFIL_UUID,
+          user_id: CHEFE_MASTER_UUID,
           nome: 'Oldumar Julio',
           email: cleanEmail,
           tipo_perfil: 'chefe',
@@ -268,10 +289,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Login error:', err);
       // Fallback para o chefe mesmo com falha de conexão
       if (isChefeMaster) {
-        const chefeUser: User = { id: 'chefe-emrich-master', email: cleanEmail };
+        const chefeUser: User = { id: CHEFE_MASTER_UUID, email: cleanEmail };
         const chefePerfil: Perfil = {
-          id: 'chefe-perfil-master',
-          user_id: 'chefe-emrich-master',
+          id: CHEFE_PERFIL_UUID,
+          user_id: CHEFE_MASTER_UUID,
           nome: 'Oldumar Julio',
           email: cleanEmail,
           tipo_perfil: 'chefe',
