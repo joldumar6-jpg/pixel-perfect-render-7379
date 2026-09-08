@@ -196,10 +196,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         );
         setPerfil(perfilData);
       } else {
-        if (typeof window !== 'undefined' && !localStorage.getItem('emrich_auth_session')) {
-          setUser(null);
-          setPerfil(null);
-        }
+        setUser(null);
+        setPerfil(null);
       }
       setIsLoading(false);
     });
