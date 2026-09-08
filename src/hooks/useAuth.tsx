@@ -2,12 +2,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Perfil, TipoPerfil } from '@/lib/types';
 import { supabase } from '@/integrations/supabase/client';
-import {
-  CHEFE_MASTER_UUID,
-  CHEFE_PERFIL_UUID,
-  isValidUUID,
-  toValidUUID,
-} from '@/lib/constants';
 
 interface AuthContextType {
   user: User | null;
