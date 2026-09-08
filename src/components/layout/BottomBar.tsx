@@ -33,7 +33,7 @@ export function BottomBar() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <div className="flex items-center justify-around bg-[#0f172a] border-t border-[#1e293b] px-4 py-2 safe-area-inset-bottom">
+      <div className="flex items-center justify-around bg-[#FFFDF7] border-t border-[#EAD9A8] px-4 py-2 safe-area-inset-bottom">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -66,9 +66,9 @@ export function Sidebar() {
   const items = desktopItems.filter(item => !item.requiresChefe || isChefe);
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-[#0f172a] border-r border-[#1e293b] z-50">
+    <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-[#FFFDF7] border-r border-[#EAD9A8] z-50">
       {/* Logo */}
-      <div className="p-6 border-b border-[#1e293b]">
+      <div className="p-6 border-b border-[#EAD9A8]">
         <h1 className="text-xl font-bold text-amber-400">EMRICH</h1>
         <p className="text-sm text-slate-400">Infraestruturas</p>
       </div>
@@ -98,7 +98,7 @@ export function Sidebar() {
       </nav>
 
       {/* User Info */}
-      <div className="p-4 border-t border-[#1e293b]">
+      <div className="p-4 border-t border-[#EAD9A8]">
         <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-slate-800/50">
           <div className="w-10 h-10 rounded-full bg-amber-400/20 flex items-center justify-center">
             <span className="text-amber-400 font-bold">

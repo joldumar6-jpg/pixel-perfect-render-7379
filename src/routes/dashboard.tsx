@@ -55,7 +55,7 @@ function DashboardPage() {
     <AppLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0f172a]/70 border border-[#1e293b] p-5 rounded-2xl shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#FFFDF7]/70 border border-[#EAD9A8] p-5 rounded-2xl shadow-sm">
           <div>
             <div className="flex items-center gap-2.5 flex-wrap">
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-100 tracking-tight">
@@ -176,7 +176,7 @@ function DashboardPage() {
         </div>
 
         {/* Performance Chart Placeholder */}
-        <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-6">
+        <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] p-6">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
             <h2 className="text-lg font-semibold text-slate-200">
               {isChefe ? 'Desempenho por Setor (Geral)' : `Desempenho do Seu Setor: ${perfil?.setores?.nome || 'Atribuído'}`}
@@ -221,7 +221,7 @@ function DashboardPage() {
         {/* Two Columns */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Critical Activities */}
-          <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-6">
+          <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-red-400" />
@@ -252,7 +252,7 @@ function DashboardPage() {
           </div>
 
           {/* Recent Activities */}
-          <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-6">
+          <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2">
                 <Clock className="w-5 h-5 text-blue-400" />
@@ -284,7 +284,7 @@ function DashboardPage() {
         </div>
 
         {/* Setores Overview */}
-        <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-6">
+        <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] p-6">
           <h2 className="text-lg font-semibold text-slate-200 mb-4">Visão Geral dos Setores</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {setores.map((setor) => {

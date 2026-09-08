@@ -82,19 +82,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const isChefeUser =
             userEmail?.toLowerCase() === 'joldumar6@gmail.com' ||
             userEmail?.toLowerCase() === 'chefe@emrich.com' ||
-            userMetadata?.tipo_perfil === 'chefe';
+            userMetadata?.['tipo_perfil'] === 'chefe';
 
           const fallbackNome =
-            (userMetadata?.nome as string) ||
-            (userEmail ? userEmail.split('@')[0] : 'Utilizador');
+            (userMetadata?.['nome'] as string) ||
+            (userEmail ? userEmail.split('@')[0]! : 'Utilizador');
 
           const fallbackPerfil: Perfil = {
             id: userId,
             user_id: userId,
             nome: fallbackNome,
             email: userEmail || '',
-            tipo_perfil: isChefeUser ? 'chefe' : ((userMetadata?.tipo_perfil as any) || 'colaborador'),
-            setor_id: (userMetadata?.setor_id as string) || null,
+            tipo_perfil: isChefeUser ? 'chefe' : ((userMetadata?.['tipo_perfil'] as TipoPerfil) || 'colaborador'),
+            setor_id: (userMetadata?.['setor_id'] as string) || null,
             setores: null,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
@@ -236,7 +236,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const finalPerfil: Perfil = perfilData || {
           id: data.user.id,
           user_id: data.user.id,
-          nome: isChefeMaster ? 'Oldumar Julio' : (data.user.user_metadata?.nome || 'Utilizador'),
+          nome: isChefeMaster ? 'Oldumar Julio' : ((data.user.user_metadata?.['nome'] as string) || 'Utilizador'),
           email: cleanEmail,
           tipo_perfil: isChefeMaster ? 'chefe' : 'colaborador',
           setor_id: null,

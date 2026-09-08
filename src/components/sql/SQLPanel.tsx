@@ -294,7 +294,7 @@ export function SQLPanel() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-[#1e293b]">
+      <div className="flex gap-2 border-b border-[#EAD9A8]">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -328,8 +328,8 @@ export function SQLPanel() {
       </div>
 
       {/* Code Block */}
-      <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border-b border-[#1e293b]">
+      <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] overflow-hidden">
+        <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border-b border-[#EAD9A8]">
           <Database className="w-4 h-4 text-slate-400" />
           <span className="text-xs text-slate-400 font-mono">
             {activeTab === 'schema' && 'schema.sql'}
