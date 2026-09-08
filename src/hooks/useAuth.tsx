@@ -254,60 +254,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { success: true };
       }
 
-      // Se der erro de "Email not confirmed" ou outro e for o Chefe Master credenciado:
-      if (isChefeMaster) {
-        const chefeUser: User = {
-          id: CHEFE_MASTER_UUID,
-          email: cleanEmail,
-        };
-        const chefePerfil: Perfil = {
-          id: CHEFE_PERFIL_UUID,
-          user_id: CHEFE_MASTER_UUID,
-          nome: 'Oldumar Julio',
-          email: cleanEmail,
-          tipo_perfil: 'chefe',
-          setor_id: null,
-          setores: null,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        };
-
-        setUser(chefeUser);
-        setPerfil(chefePerfil);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('emrich_auth_session', JSON.stringify({ user: chefeUser, perfil: chefePerfil }));
-        }
-        return { success: true };
-      }
-
       if (error) {
         return { success: false, error: error.message };
       }
 
-      return { success: true };
+      return { success: false, error: 'Não foi possível iniciar sessão' };
     } catch (err) {
       console.error('Login error:', err);
-      // Fallback para o chefe mesmo com falha de conexão
-      if (isChefeMaster) {
-        const chefeUser: User = { id: CHEFE_MASTER_UUID, email: cleanEmail };
-        const chefePerfil: Perfil = {
-          id: CHEFE_PERFIL_UUID,
-          user_id: CHEFE_MASTER_UUID,
-          nome: 'Oldumar Julio',
-          email: cleanEmail,
-          tipo_perfil: 'chefe',
-          setor_id: null,
-          setores: null,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        };
-        setUser(chefeUser);
-        setPerfil(chefePerfil);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('emrich_auth_session', JSON.stringify({ user: chefeUser, perfil: chefePerfil }));
-        }
-        return { success: true };
-      }
       return { success: false, error: 'Erro ao fazer login' };
     }
   };
