@@ -19,6 +19,28 @@
  */
 
 @theme inline {
+  --font-sans: "Karla", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+
+  /* Paleta EMRICH (papel/oliveira) — remapeia os tons usados na app */
+  --color-slate-950: #fbf3de;
+  --color-slate-900: #f7ecd3;
+  --color-slate-800: #f4e4bc;
+  --color-slate-700: #ead9a8;
+  --color-slate-600: #d9c68a;
+  --color-slate-500: #8a8a६b;
+  --color-slate-400: #6b6b52;
+  --color-slate-300: #4b5320;
+  --color-slate-200: #23281c;
+  --color-slate-100: #23281c;
+
+  --color-amber-300: #57c94a;
+  --color-amber-400: #3cb43a;
+  --color-amber-500: #235c24;
+  --color-emerald-300: #57c94a;
+  --color-emerald-400: #235c24;
+  --color-emerald-500: #1c4a1d;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
