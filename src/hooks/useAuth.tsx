@@ -211,11 +211,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const cleanEmail = email.trim().toLowerCase();
     const cleanPassword = password.trim();
 
-    // Verificação de credenciais dedicadas de Chefe de Departamento
-    const isChefeMaster =
-      (cleanEmail === 'chefe@emrich.com' || cleanEmail === 'joldumar6@gmail.com') &&
-      cleanPassword === 'Chefe@Emrich2026';
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
@@ -236,23 +231,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const finalPerfil: Perfil = perfilData || {
           id: data.user.id,
           user_id: data.user.id,
-          nome: isChefeMaster ? 'Oldumar Julio' : ((data.user.user_metadata?.['nome'] as string) || 'Utilizador'),
+          nome: (data.user.user_metadata?.['nome'] as string) || 'Utilizador',
           email: cleanEmail,
-          tipo_perfil: isChefeMaster ? 'chefe' : 'colaborador',
+          tipo_perfil: 'colaborador',
           setor_id: null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };
 
         setPerfil(finalPerfil);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(
-            'emrich_auth_session',
-            JSON.stringify({ user: { id: data.user.id, email: cleanEmail }, perfil: finalPerfil })
-          );
-        }
         return { success: true };
       }
+
 
       if (error) {
         return { success: false, error: error.message };
