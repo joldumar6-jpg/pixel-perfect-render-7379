@@ -29,7 +29,7 @@ export function ActivityForm({
 }: ActivityFormProps) {
   const [titulo, setTitulo] = useState(atividade?.titulo || '');
   const [descricao, setDescricao] = useState(atividade?.descricao || '');
-  const initialSetorId = atividade?.setor_id || defaultSetorId || (setores.length === 1 ? setores[0].id : '');
+  const initialSetorId = atividade?.setor_id || defaultSetorId || (setores.length === 1 ? setores[0]!.id : '');
   const [setorId, setSetorId] = useState(initialSetorId);
   const [criticidade, setCriticidade] = useState<Criticidade>(atividade?.criticidade || 'media');
   const [dataAtividade, setDataAtividade] = useState(
@@ -39,8 +39,8 @@ export function ActivityForm({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!setorId && (defaultSetorId || (setores.length === 1 ? setores[0].id : ''))) {
-      setSetorId(defaultSetorId || (setores.length === 1 ? setores[0].id : ''));
+    if (!setorId && (defaultSetorId || (setores.length === 1 ? setores[0]!.id : ''))) {
+      setSetorId(defaultSetorId || (setores.length === 1 ? setores[0]!.id : ''));
     }
   }, [defaultSetorId, setores, setorId]);
 

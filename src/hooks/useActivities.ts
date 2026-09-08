@@ -179,7 +179,7 @@ export function useActivities(options: UseActivitiesOptions = {}) {
 
         const fallbackRes = await fallbackQuery;
         if (!fallbackRes.error) {
-          data = fallbackRes.data;
+          data = fallbackRes.data as unknown as typeof data;
           error = null;
         }
       }
@@ -291,7 +291,7 @@ export function useActivities(options: UseActivitiesOptions = {}) {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       setores: setorObj,
-      perfil: perfil,
+      perfis: perfil,
     };
 
     // Salvar localmente primeiro para garantir que o utilizador nunca perca a atividade
