@@ -130,34 +130,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        // Verificar primeiro sessão em storage (para o Chefe oficial ou modo offline)
         if (typeof window !== 'undefined') {
-          const stored = localStorage.getItem('emrich_auth_session');
-          if (stored) {
-            try {
-              const parsed = JSON.parse(stored);
-              if (parsed?.user && parsed?.perfil) {
-                // Sanear qualquer ID legado que não seja UUID
-                if (parsed.user.id === 'chefe-emrich-master' || !isValidUUID(parsed.user.id)) {
-                  parsed.user.id = CHEFE_MASTER_UUID;
-                }
-                if (parsed.perfil.user_id === 'chefe-emrich-master' || !isValidUUID(parsed.perfil.user_id)) {
-                  parsed.perfil.user_id = CHEFE_MASTER_UUID;
-                }
-                if (parsed.perfil.id === 'chefe-perfil-master' || !isValidUUID(parsed.perfil.id)) {
-                  parsed.perfil.id = CHEFE_PERFIL_UUID;
-                }
-                localStorage.setItem('emrich_auth_session', JSON.stringify(parsed));
-                setUser(parsed.user);
-                setPerfil(parsed.perfil);
-                setIsLoading(false);
-                return;
-              }
-            } catch (e) {
-              console.error('Error reading stored session:', e);
-            }
-          }
+          localStorage.removeItem('emrich_auth_session');
         }
+
+
 
         const { data: { session } } = await supabase.auth.getSession();
 
