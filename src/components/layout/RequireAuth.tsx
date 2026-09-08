@@ -14,7 +14,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
 
   if (isLoading || !user) {
     return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FBF3DE] flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full" />
       </div>
     );

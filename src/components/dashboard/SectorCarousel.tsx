@@ -40,7 +40,7 @@ export function SectorCarousel({ setores, selectedId, onSelect, showAll = true }
             'flex-shrink-0 flex flex-col items-center gap-1 px-4 py-3 rounded-xl border transition-all',
             !selectedId
               ? 'bg-amber-400/10 border-amber-400/30 text-amber-400'
-              : 'bg-[#0f172a] border-[#1e293b] text-slate-400 hover:border-slate-600'
+              : 'bg-[#FFFDF7] border-[#EAD9A8] text-slate-400 hover:border-slate-600'
           )}
         >
           <div className="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center">
@@ -62,7 +62,7 @@ export function SectorCarousel({ setores, selectedId, onSelect, showAll = true }
               'flex-shrink-0 flex flex-col items-center gap-1 px-4 py-3 rounded-xl border transition-all',
               isSelected
                 ? 'border-2'
-                : 'bg-[#0f172a] border-[#1e293b] hover:border-slate-600'
+                : 'bg-[#FFFDF7] border-[#EAD9A8] hover:border-slate-600'
             )}
             style={{
               borderColor: isSelected ? setor.cor : undefined,

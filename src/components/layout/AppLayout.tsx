@@ -16,9 +16,9 @@ export function AppLayout({ children }: AppLayoutProps) {
   const { perfil, isChefe } = useAuth();
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-100">
+    <div className="min-h-screen bg-[#FBF3DE] text-slate-100">
       {/* Top Mobile Bar com Botão do Menu Sanduíche */}
-      <header className="md:hidden sticky top-0 z-40 bg-[#0f172a]/95 backdrop-blur border-b border-[#1e293b] px-4 py-3 flex items-center justify-between">
+      <header className="md:hidden sticky top-0 z-40 bg-[#FFFDF7]/95 backdrop-blur border-b border-[#EAD9A8] px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Botão Menu Sanduíche */}
           <button

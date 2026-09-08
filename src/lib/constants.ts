@@ -1,9 +1,9 @@
 // Constantes do tema EMRICH INFRAESTRUTURAS
 
 export const THEME = {
-  background: '#020617',
-  card: '#0f172a',
-  border: '#1e293b',
+  background: '#FBF3DE',
+  card: '#FFFDF7',
+  border: '#EAD9A8',
   primary: '#f59e0b',
   primaryDark: '#d97706',
   success: '#10b981',

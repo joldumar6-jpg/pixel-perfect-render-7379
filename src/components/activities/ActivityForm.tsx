@@ -79,9 +79,9 @@ export function ActivityForm({
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-lg bg-[#0f172a] rounded-t-2xl md:rounded-2xl border border-[#1e293b] max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-lg bg-[#FFFDF7] rounded-t-2xl md:rounded-2xl border border-[#EAD9A8] max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#1e293b]">
+        <div className="flex items-center justify-between p-4 border-b border-[#EAD9A8]">
           <h2 className="text-lg font-semibold text-slate-100">
             {isEditing ? 'Editar Atividade' : 'Nova Atividade'}
           </h2>
@@ -214,7 +214,7 @@ export function ActivityForm({
         </form>
 
         {/* Footer */}
-        <div className="p-4 border-t border-[#1e293b] flex gap-3">
+        <div className="p-4 border-t border-[#EAD9A8] flex gap-3">
           <button
             type="button"
             onClick={onClose}

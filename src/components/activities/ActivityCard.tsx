@@ -51,7 +51,7 @@ export function ActivityCard({ atividade, onEdit, onDelete, onUpdateEstado }: Ac
   const criticidadeConfig = CRITICIDADE_CONFIG[atividade.criticidade];
 
   return (
-    <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] overflow-hidden hover:border-slate-600 transition-colors">
+    <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] overflow-hidden hover:border-slate-600 transition-colors">
       {/* Header */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">

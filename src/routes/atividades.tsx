@@ -165,7 +165,7 @@ function AtividadesPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Pesquisar atividades..."
-                className="w-full pl-10 pr-4 py-2.5 bg-[#0f172a] border border-[#1e293b] rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/50"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#FFFDF7] border border-[#EAD9A8] rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/50"
               />
             </div>
             <button
@@ -173,7 +173,7 @@ function AtividadesPage() {
               className={`p-2.5 rounded-lg border transition-colors ${
                 showFilters || hasActiveFilters
                   ? 'bg-amber-400/10 border-amber-400/30 text-amber-400'
-                  : 'bg-[#0f172a] border-[#1e293b] text-slate-400 hover:text-slate-200'
+                  : 'bg-[#FFFDF7] border-[#EAD9A8] text-slate-400 hover:text-slate-200'
               }`}
             >
               <Filter className="w-5 h-5" />
@@ -181,7 +181,7 @@ function AtividadesPage() {
           </div>
 
           {showFilters && (
-            <div className="p-4 bg-[#0f172a] rounded-xl border border-[#1e293b] space-y-4">
+            <div className="p-4 bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] space-y-4">
               <div>
                 <label className="block text-sm text-slate-400 mb-2">Estado</label>
                 <div className="flex flex-wrap gap-2">
@@ -253,7 +253,7 @@ function AtividadesPage() {
         {isLoading ? (
           <div className="grid gap-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-[#0f172a] rounded-xl border border-[#1e293b] animate-pulse" />
+              <div key={i} className="h-48 bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] animate-pulse" />
             ))}
           </div>
         ) : filteredAtividades.length === 0 ? (

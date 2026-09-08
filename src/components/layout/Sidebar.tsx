@@ -24,9 +24,9 @@ export function Sidebar() {
   const items = desktopItems.filter(item => !item.requiresChefe || isChefe);
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-[#0f172a] border-r border-[#1e293b] z-50">
+    <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-[#FFFDF7] border-r border-[#EAD9A8] z-50">
       {/* Logo */}
-      <div className="p-6 border-b border-[#1e293b]">
+      <div className="p-6 border-b border-[#EAD9A8]">
         <h1 className="text-xl font-bold text-amber-400">EMRICH</h1>
         <p className="text-sm text-slate-400">Infraestruturas</p>
       </div>
@@ -56,7 +56,7 @@ export function Sidebar() {
       </nav>
 
       {/* User Info */}
-      <div className="p-4 border-t border-[#1e293b] space-y-2">
+      <div className="p-4 border-t border-[#EAD9A8] space-y-2">
         <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/50">
           <div className="w-10 h-10 rounded-full bg-amber-400/20 border border-amber-400/30 flex items-center justify-center flex-shrink-0">
             <span className="text-amber-400 font-bold">

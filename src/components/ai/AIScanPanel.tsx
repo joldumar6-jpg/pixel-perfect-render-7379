@@ -132,7 +132,7 @@ ${report.recomendacoes.map((r, i) => `${i + 1}. ${r}`).join('\n')}
 
       {/* Scan Button */}
       {!report && (
-        <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-8 text-center">
+        <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] p-8 text-center">
           <div className="w-16 h-16 rounded-full bg-amber-400/10 flex items-center justify-center mx-auto mb-4">
             <Scan className="w-8 h-8 text-amber-400" />
           </div>
@@ -196,7 +196,7 @@ ${report.recomendacoes.map((r, i) => `${i + 1}. ${r}`).join('\n')}
           </div>
 
           {/* Report Content */}
-          <div className="bg-[#0f172a] rounded-xl border border-[#1e293b] p-6 print:border-0 print:bg-white print:text-black">
+          <div className="bg-[#FFFDF7] rounded-xl border border-[#EAD9A8] p-6 print:border-0 print:bg-white print:text-black">
             {/* Header */}
             <div className="text-center mb-8 print:mb-4">
               <h2 className="text-2xl font-bold text-amber-400 print:text-black">

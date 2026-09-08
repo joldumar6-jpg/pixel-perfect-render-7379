@@ -81,7 +81,7 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
       {/* Drawer deslizante */}
       <div
         className={cn(
-          'fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-[#0f172a] border-r border-[#1e293b] z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out',
+          'fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-[#FFFDF7] border-r border-[#EAD9A8] z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out',
           isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
         role="dialog"
@@ -89,7 +89,7 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
         aria-label="Menu de Navegação Sanduíche"
       >
         {/* Cabeçalho do Drawer com Logo e Botão Fechar */}
-        <div className="flex items-center justify-between p-5 border-b border-[#1e293b]">
+        <div className="flex items-center justify-between p-5 border-b border-[#EAD9A8]">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center">
               <Building2 className="w-5 h-5 text-amber-400" />
@@ -110,7 +110,7 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
         </div>
 
         {/* Cartão de Informação do Utilizador */}
-        <div className="p-4 border-b border-[#1e293b] bg-slate-900/50">
+        <div className="p-4 border-b border-[#EAD9A8] bg-slate-900/50">
           <div className="flex items-start gap-3">
             <div className="w-12 h-12 rounded-full bg-amber-400/20 border border-amber-400/30 flex items-center justify-center flex-shrink-0">
               <span className="text-amber-400 font-bold text-lg">
@@ -220,7 +220,7 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
         </nav>
 
         {/* Rodapé com Botão de Sair */}
-        <div className="p-4 border-t border-[#1e293b] bg-slate-900/60">
+        <div className="p-4 border-t border-[#EAD9A8] bg-slate-900/60">
           <button
             onClick={async () => {
               onClose();

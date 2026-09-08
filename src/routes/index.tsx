@@ -143,14 +143,14 @@ function LoginPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FBF3DE] flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] flex flex-col">
+    <div className="min-h-screen bg-[#FBF3DE] flex flex-col">
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
@@ -171,7 +171,7 @@ function LoginPage() {
             <p className="text-slate-400 mt-1">Infraestruturas</p>
           </div>
 
-          <div className="bg-[#0f172a] rounded-2xl border border-[#1e293b] p-6">
+          <div className="bg-[#FFFDF7] rounded-2xl border border-[#EAD9A8] p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Lock className="w-5 h-5 text-amber-400" />

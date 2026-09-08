@@ -48,7 +48,7 @@ export function MetricCard({ title, value, subtitle, icon: Icon, color = 'slate'
   const colors = colorClasses[color];
 
   return (
-    <div className={cn('p-4 rounded-xl border bg-[#0f172a]', colors.border)}>
+    <div className={cn('p-4 rounded-xl border bg-[#FFFDF7]', colors.border)}>
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-slate-400 mb-1">{title}</p>
