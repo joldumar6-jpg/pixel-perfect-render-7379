@@ -31,25 +31,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userEmail?: string,
     userMetadata?: Record<string, unknown>
   ): Promise<Perfil | null> => {
-    // Se for a conta do Chefe Master oficial ou UUID canónico
-    if (
-      userId === 'chefe-emrich-master' ||
-      userId === CHEFE_MASTER_UUID ||
-      userEmail?.toLowerCase() === 'chefe@emrich.com'
-    ) {
-      return {
-        id: CHEFE_PERFIL_UUID,
-        user_id: CHEFE_MASTER_UUID,
-        nome: 'Oldumar Julio',
-        email: userEmail || 'chefe@emrich.com',
-        tipo_perfil: 'chefe',
-        setor_id: null,
-        setores: null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-    }
-
     try {
       const { data, error } = await supabase
         .from('perfis')
@@ -58,32 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error) {
-        // Se for erro de permissão RLS 42501 (ex: meu_setor) ou PGRST116 (ainda sem perfil no banco)
         if (error.code === '42501' || error.code === 'PGRST116') {
-          // Recuperar do localStorage se houver
-          if (typeof window !== 'undefined') {
-            const stored = localStorage.getItem('emrich_auth_session');
-            if (stored) {
-              try {
-                const parsed = JSON.parse(stored);
-                if (
-                  parsed?.perfil &&
-                  (parsed.perfil.user_id === userId || parsed.perfil.email === userEmail)
-                ) {
-                  return parsed.perfil;
-                }
-              } catch {
-                // ignore
-              }
-            }
-          }
-
-          // Fallback gracioso construído a partir da sessão/metadata para manter a aplicação funcional
-          const isChefeUser =
-            userEmail?.toLowerCase() === 'joldumar6@gmail.com' ||
-            userEmail?.toLowerCase() === 'chefe@emrich.com' ||
-            userMetadata?.['tipo_perfil'] === 'chefe';
-
           const fallbackNome =
             (userMetadata?.['nome'] as string) ||
             (userEmail ? userEmail.split('@')[0]! : 'Utilizador');
@@ -93,22 +49,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             user_id: userId,
             nome: fallbackNome,
             email: userEmail || '',
-            tipo_perfil: isChefeUser ? 'chefe' : ((userMetadata?.['tipo_perfil'] as TipoPerfil) || 'colaborador'),
+            tipo_perfil: (userMetadata?.['tipo_perfil'] as TipoPerfil) || 'colaborador',
             setor_id: (userMetadata?.['setor_id'] as string) || null,
             setores: null,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
           };
 
-          if (typeof window !== 'undefined') {
-            localStorage.setItem(
-              'emrich_auth_session',
-              JSON.stringify({ user: { id: userId, email: userEmail }, perfil: fallbackPerfil })
-            );
-          }
-
           return fallbackPerfil;
         }
+
 
         console.error('Error fetching perfil:', error);
         return null;
