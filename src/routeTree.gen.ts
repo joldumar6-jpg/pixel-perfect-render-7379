@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AtividadesRouteImport } from './routes/atividades'
+import { Route as ColaboradoresRouteImport } from './routes/colaboradores'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as OcorrenciasRouteImport } from './routes/ocorrencias'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as RepositorioRouteImport } from './routes/repositorio'
 import { Route as SqlRouteImport } from './routes/sql'
 import { Route as UtilizadoresRouteImport } from './routes/utilizadores'
 import { Route as VarreduraIaRouteImport } from './routes/varredura-ia'
@@ -26,9 +30,29 @@ const AtividadesRoute = AtividadesRouteImport.update({
   path: '/atividades',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ColaboradoresRoute = ColaboradoresRouteImport.update({
+  id: '/colaboradores',
+  path: '/colaboradores',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OcorrenciasRoute = OcorrenciasRouteImport.update({
+  id: '/ocorrencias',
+  path: '/ocorrencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RepositorioRoute = RepositorioRouteImport.update({
+  id: '/repositorio',
+  path: '/repositorio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SqlRoute = SqlRouteImport.update({
@@ -50,7 +74,11 @@ const VarreduraIaRoute = VarreduraIaRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/atividades': typeof AtividadesRoute
+  '/colaboradores': typeof ColaboradoresRoute
   '/dashboard': typeof DashboardRoute
+  '/ocorrencias': typeof OcorrenciasRoute
+  '/perfil': typeof PerfilRoute
+  '/repositorio': typeof RepositorioRoute
   '/sql': typeof SqlRoute
   '/utilizadores': typeof UtilizadoresRoute
   '/varredura-ia': typeof VarreduraIaRoute
@@ -58,7 +86,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/atividades': typeof AtividadesRoute
+  '/colaboradores': typeof ColaboradoresRoute
   '/dashboard': typeof DashboardRoute
+  '/ocorrencias': typeof OcorrenciasRoute
+  '/perfil': typeof PerfilRoute
+  '/repositorio': typeof RepositorioRoute
   '/sql': typeof SqlRoute
   '/utilizadores': typeof UtilizadoresRoute
   '/varredura-ia': typeof VarreduraIaRoute
@@ -67,7 +99,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/atividades': typeof AtividadesRoute
+  '/colaboradores': typeof ColaboradoresRoute
   '/dashboard': typeof DashboardRoute
+  '/ocorrencias': typeof OcorrenciasRoute
+  '/perfil': typeof PerfilRoute
+  '/repositorio': typeof RepositorioRoute
   '/sql': typeof SqlRoute
   '/utilizadores': typeof UtilizadoresRoute
   '/varredura-ia': typeof VarreduraIaRoute
@@ -77,7 +113,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/atividades'
+    | '/colaboradores'
     | '/dashboard'
+    | '/ocorrencias'
+    | '/perfil'
+    | '/repositorio'
     | '/sql'
     | '/utilizadores'
     | '/varredura-ia'
@@ -85,7 +125,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/atividades'
+    | '/colaboradores'
     | '/dashboard'
+    | '/ocorrencias'
+    | '/perfil'
+    | '/repositorio'
     | '/sql'
     | '/utilizadores'
     | '/varredura-ia'
@@ -93,7 +137,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/atividades'
+    | '/colaboradores'
     | '/dashboard'
+    | '/ocorrencias'
+    | '/perfil'
+    | '/repositorio'
     | '/sql'
     | '/utilizadores'
     | '/varredura-ia'
@@ -102,7 +150,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AtividadesRoute: typeof AtividadesRoute
+  ColaboradoresRoute: typeof ColaboradoresRoute
   DashboardRoute: typeof DashboardRoute
+  OcorrenciasRoute: typeof OcorrenciasRoute
+  PerfilRoute: typeof PerfilRoute
+  RepositorioRoute: typeof RepositorioRoute
   SqlRoute: typeof SqlRoute
   UtilizadoresRoute: typeof UtilizadoresRoute
   VarreduraIaRoute: typeof VarreduraIaRoute
@@ -124,11 +176,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AtividadesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/colaboradores': {
+      id: '/colaboradores'
+      path: '/colaboradores'
+      fullPath: '/colaboradores'
+      preLoaderRoute: typeof ColaboradoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ocorrencias': {
+      id: '/ocorrencias'
+      path: '/ocorrencias'
+      fullPath: '/ocorrencias'
+      preLoaderRoute: typeof OcorrenciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/repositorio': {
+      id: '/repositorio'
+      path: '/repositorio'
+      fullPath: '/repositorio'
+      preLoaderRoute: typeof RepositorioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sql': {
@@ -158,7 +238,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AtividadesRoute: AtividadesRoute,
+  ColaboradoresRoute: ColaboradoresRoute,
   DashboardRoute: DashboardRoute,
+  OcorrenciasRoute: OcorrenciasRoute,
+  PerfilRoute: PerfilRoute,
+  RepositorioRoute: RepositorioRoute,
   SqlRoute: SqlRoute,
   UtilizadoresRoute: UtilizadoresRoute,
   VarreduraIaRoute: VarreduraIaRoute,
