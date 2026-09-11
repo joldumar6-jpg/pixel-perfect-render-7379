@@ -3,25 +3,13 @@ import { Link, useRouterState } from '@tanstack/react-router';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import { perfilLabel } from '@/lib/perfis';
-import {
-  LayoutDashboard,
-  ClipboardList,
-  Database,
-  Users,
-} from 'lucide-react';
-
-const desktopItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/atividades', label: 'Atividades', icon: ClipboardList },
-  { href: '/utilizadores', label: 'Utilizadores', icon: Users, requiresChefe: true },
-  { href: '/sql', label: 'SQL', icon: Database, requiresChefe: true },
-];
+import { NAV_LINKS } from '@/lib/nav';
 
 export function Sidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { isChefe, perfil, logout } = useAuth();
 
-  const items = desktopItems.filter(item => !item.requiresChefe || isChefe);
+  const items = NAV_LINKS.filter(item => !item.requiresChefe || isChefe);
 
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-[#FFFDF7] border-r border-[#EAD9A8] z-50">
@@ -32,7 +20,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;

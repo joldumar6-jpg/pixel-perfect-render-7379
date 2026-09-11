@@ -4,31 +4,18 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import { perfilLabel } from '@/lib/perfis';
 import {
-  Menu,
   X,
-  LayoutDashboard,
-  ClipboardList,
-  Users,
-  Database,
-  Scan,
   LogOut,
   Building2,
   ShieldAlert,
   ShieldCheck,
 } from 'lucide-react';
+import { NAV_LINKS as navItems } from '@/lib/nav';
 
 interface MobileNavDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/atividades', label: 'Atividades', icon: ClipboardList },
-  { href: '/utilizadores', label: 'Utilizadores', icon: Users, requiresChefe: true },
-  { href: '/varredura-ia', label: 'Varredura IA', icon: Scan, requiresChefe: true },
-  { href: '/sql', label: 'Painel SQL', icon: Database, requiresChefe: true },
-];
 
 export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
