@@ -74,6 +74,171 @@ export type Database = {
           },
         ]
       }
+      checklist_execucoes: {
+        Row: {
+          atividade_id: string | null
+          concluida: boolean
+          created_at: string
+          executado_por: string
+          id: string
+          modelo_id: string
+          observacoes: string | null
+          respostas: Json
+          setor_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          atividade_id?: string | null
+          concluida?: boolean
+          created_at?: string
+          executado_por: string
+          id?: string
+          modelo_id: string
+          observacoes?: string | null
+          respostas?: Json
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          atividade_id?: string | null
+          concluida?: boolean
+          created_at?: string
+          executado_por?: string
+          id?: string
+          modelo_id?: string
+          observacoes?: string | null
+          respostas?: Json
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_execucoes_atividade_id_fkey"
+            columns: ["atividade_id"]
+            isOneToOne: false
+            referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_execucoes_modelo_id_fkey"
+            columns: ["modelo_id"]
+            isOneToOne: false
+            referencedRelation: "checklist_modelos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_execucoes_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      checklist_modelos: {
+        Row: {
+          created_at: string
+          created_by: string
+          descricao: string | null
+          id: string
+          itens: Json
+          nome: string
+          setor_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          descricao?: string | null
+          id?: string
+          itens?: Json
+          nome: string
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          descricao?: string | null
+          id?: string
+          itens?: Json
+          nome?: string
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_modelos_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documentos: {
+        Row: {
+          atividade_id: string | null
+          categoria: string
+          created_at: string
+          created_by: string
+          descricao: string | null
+          ficheiro_path: string
+          ficheiro_url: string
+          id: string
+          nome: string
+          setor_id: string | null
+          tamanho: number | null
+          tipo: string | null
+          updated_at: string
+        }
+        Insert: {
+          atividade_id?: string | null
+          categoria?: string
+          created_at?: string
+          created_by: string
+          descricao?: string | null
+          ficheiro_path: string
+          ficheiro_url: string
+          id?: string
+          nome: string
+          setor_id?: string | null
+          tamanho?: number | null
+          tipo?: string | null
+          updated_at?: string
+        }
+        Update: {
+          atividade_id?: string | null
+          categoria?: string
+          created_at?: string
+          created_by?: string
+          descricao?: string | null
+          ficheiro_path?: string
+          ficheiro_url?: string
+          id?: string
+          nome?: string
+          setor_id?: string | null
+          tamanho?: number | null
+          tipo?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documentos_atividade_id_fkey"
+            columns: ["atividade_id"]
+            isOneToOne: false
+            referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documentos_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       historico_atividades: {
         Row: {
           atividade_id: string
@@ -114,6 +279,145 @@ export type Database = {
             columns: ["atividade_id"]
             isOneToOne: false
             referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      log_auditoria: {
+        Row: {
+          acao: string
+          created_at: string
+          detalhes: Json | null
+          entidade: string
+          entidade_id: string | null
+          id: string
+          user_id: string
+          user_nome: string | null
+        }
+        Insert: {
+          acao: string
+          created_at?: string
+          detalhes?: Json | null
+          entidade: string
+          entidade_id?: string | null
+          id?: string
+          user_id: string
+          user_nome?: string | null
+        }
+        Update: {
+          acao?: string
+          created_at?: string
+          detalhes?: Json | null
+          entidade?: string
+          entidade_id?: string | null
+          id?: string
+          user_id?: string
+          user_nome?: string | null
+        }
+        Relationships: []
+      }
+      notificacoes: {
+        Row: {
+          created_at: string
+          id: string
+          lida: boolean
+          link: string | null
+          mensagem: string | null
+          tipo: string
+          titulo: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lida?: boolean
+          link?: string | null
+          mensagem?: string | null
+          tipo?: string
+          titulo: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lida?: boolean
+          link?: string | null
+          mensagem?: string | null
+          tipo?: string
+          titulo?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ocorrencias: {
+        Row: {
+          atividade_id: string | null
+          created_at: string
+          created_by: string
+          data_ocorrencia: string
+          descricao: string | null
+          estado: Database["public"]["Enums"]["estado_atividade"]
+          foto_url: string | null
+          gravidade: Database["public"]["Enums"]["criticidade"]
+          id: string
+          localizacao: string | null
+          responsavel_id: string | null
+          setor_id: string
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          atividade_id?: string | null
+          created_at?: string
+          created_by: string
+          data_ocorrencia?: string
+          descricao?: string | null
+          estado?: Database["public"]["Enums"]["estado_atividade"]
+          foto_url?: string | null
+          gravidade?: Database["public"]["Enums"]["criticidade"]
+          id?: string
+          localizacao?: string | null
+          responsavel_id?: string | null
+          setor_id: string
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          atividade_id?: string | null
+          created_at?: string
+          created_by?: string
+          data_ocorrencia?: string
+          descricao?: string | null
+          estado?: Database["public"]["Enums"]["estado_atividade"]
+          foto_url?: string | null
+          gravidade?: Database["public"]["Enums"]["criticidade"]
+          id?: string
+          localizacao?: string | null
+          responsavel_id?: string | null
+          setor_id?: string
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ocorrencias_atividade_id_fkey"
+            columns: ["atividade_id"]
+            isOneToOne: false
+            referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_responsavel_id_fkey"
+            columns: ["responsavel_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ocorrencias_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
             referencedColumns: ["id"]
           },
         ]
@@ -218,6 +522,57 @@ export type Database = {
           nome?: string
         }
         Relationships: []
+      }
+      tarefas: {
+        Row: {
+          atividade_id: string
+          concluida: boolean
+          created_at: string
+          created_by: string
+          id: string
+          ordem: number
+          responsavel_id: string | null
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          atividade_id: string
+          concluida?: boolean
+          created_at?: string
+          created_by: string
+          id?: string
+          ordem?: number
+          responsavel_id?: string | null
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          atividade_id?: string
+          concluida?: boolean
+          created_at?: string
+          created_by?: string
+          id?: string
+          ordem?: number
+          responsavel_id?: string | null
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tarefas_atividade_id_fkey"
+            columns: ["atividade_id"]
+            isOneToOne: false
+            referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tarefas_responsavel_id_fkey"
+            columns: ["responsavel_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
